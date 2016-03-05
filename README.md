@@ -9,9 +9,12 @@ This README documents the sipgate.io functionality. There's a [demo page](https:
 
 ## sipgate.io vs other sipgate APIs
 
-* sipgate.io is a WebHook API. The sipgate server sends events to a customers HTTP server. Use sipgate.io to respond to, display or record live call events. sipgate.io does not require any other sipgate products.
-* sipgate.rest is a REST API. It processes requests initiated by a customers application. Use sipgate.rest to initiate calls and to read or change configuration data for a sipgate product. sipgate.rest also enables you to authenticate sipgate users using OAuth 2. sipgate.rest requires sipgate basic, sipgate team, simquadrat or sipgate.io.
-* sipgate.rpc is an XML-RPC API. It processes requests initiated by a customers application. The XML-RPC API is deprecated and should not be used for new projects - there are no plans to cancel it though. sipgate.rpc requires sipgate basic, sipgate team or simquadrat.
+* __sipgate.io__ is a WebHook API.
+  The sipgate server sends events to a customers HTTP server. Use sipgate.io to respond to, display or record live call events. sipgate.io does not require any other sipgate products.
+* __sipgate.rest__ is a REST API.
+  It processes requests initiated by a customers application. Use sipgate.rest to initiate calls and to read or change configuration data for a sipgate product. sipgate.rest also enables you to authenticate sipgate users using OAuth 2. sipgate.rest requires sipgate basic, sipgate team, simquadrat or sipgate.io.
+* __sipgate.rpc__ is an XML-RPC API.
+  It processes requests initiated by a customers application. The XML-RPC API is deprecated and should not be used for new projects - there are no plans to cancel it though. sipgate.rpc requires sipgate basic, sipgate team or simquadrat.
 
 ## Events and XML Responses
 
@@ -20,9 +23,9 @@ This README documents the sipgate.io functionality. There's a [demo page](https:
 Event   | Configuration
 --------|---------------------------------
 newCall | needs to be configured in the UI
-answer  | Response onAnswer
-hangup  | Response onHangup
-DTMF    | Gather onData
+answer  | &lt;[Response](#the-xml-response)&gt; [onAnswer](#onanswer)
+hangup  | &lt;[Response](#the-xml-response)&gt; [onHangup](#onhangup)
+DTMF    | &lt;[Gather](#gather)&gt; [onData](#ondata)
 
 
 ### Responses
