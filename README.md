@@ -1,7 +1,56 @@
-sipgate.io
-==========
+# sipgate.io
 
 This README documents the sipgate.io functionality. There's a [demo page](https://demo.sipgate.io), [code examples](https://github.com/sipgate/sipgate.io/tree/master/examples), and a [newsletter](http://mailing.sipgate.de/f/42695-161642/).
+
+1. [sipgate.io vs other sipgate APIs](#sipgate.io vs other sipgate APIs)
+2. [Events and XML Responses](#Pushes and XML Responses)
+	* [Events](#events)
+	* [Responses](#responses)
+
+## sipgate.io vs other sipgate APIs
+
+* sipgate.io is a WebHook API. The sipgate server sends events to a customers HTTP server. Use sipgate.io to respond to, display or record live call events. sipgate.io does not require any other sipgate products.
+* sipgate.rest is a REST API. It processes requests initiated by a customers application. Use sipgate.rest to initiate calls and to read or change configuration data for a sipgate product. sipgate.rest also enables you to authenticate sipgate users using OAuth 2. sipgate.rest requires sipgate basic, sipgate team, simquadrat or sipgate.io.
+* sipgate.rpc is an XML-RPC API. It processes requests initiated by a customers application. The XML-RPC API is deprecated and should not be used for new projects - there are no plans to cancel it though. sipgate.rpc requires sipgate basic, sipgate team or simquadrat.
+
+## Events and XML Responses
+
+### Events
+
+Event   | Configuration
+--------|---------------------------------
+newCall | needs to be configured in the UI
+answer  | Response onAnswer
+hangup  | Response onHangup
+DTMF    | Gather onData
+
+
+### Responses
+
+Response            | Answer
+--------------------|--------------------------------
+[Dial](#dial)       | forward the call
+[Play](#play)       | play a sound file
+[Gather](#gather)   | gather phone keypad presses (DTMF)
+[Reject](#reject)   | reject call as busy or unavailable
+[Hangup](#hangup)   | hang up
+
+sipgate.io pushes call events on the network level to an http server over insecure (http) or secure (https) connections. For production use we highly recommend using an https secured server with either a commercial or a [Let's Encrypt](https://letsencrypt.org/) certificate. Self signed certificates are deprecated.
+
+When a call is pushed the server can answer with an XML response to change the call routing, play back audio and gather phone key presses (DTMF).
+
+Here's what happens during a sample call handled by sipgate.io:
+
+* someone calls one of your phone numbers
+	+ newCall event gets pushed to the default sipgate.io incoming-URL
+	+ server returns XML:
+		+ push to URL onHangup and onAnswer
+		+ Play welcome message
+		+ Dial number of agent the caller spoke to before
+* you answer the phone
+	+ answer event gets pushed to the onAnswer URL
+* the caller hangs up
+	+ hangup event gets pushed to the onHangup URL
 
 Requirements
 ------------
@@ -101,7 +150,7 @@ notFound        | The called number does not exist or called party is offline
 
 ### DTMF
 
-If you ["gather"](#gather) users' dtmf reactions, this result is pushed as an event to the url specified in the ["onData" attribute](#ondata) with the following parameters: 
+If you ["gather"](#gather) users' dtmf reactions, this result is pushed as an event to the url specified in the ["onData" attribute](#ondata) with the following parameters:
 
 Parameter | Description
 --------- | -----------
